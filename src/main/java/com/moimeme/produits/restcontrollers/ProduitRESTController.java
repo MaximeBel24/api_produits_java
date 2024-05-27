@@ -1,5 +1,6 @@
 package com.moimeme.produits.restcontrollers;
 
+import com.moimeme.produits.dto.ProduitDTO;
 import com.moimeme.produits.entities.Produit;
 import com.moimeme.produits.service.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +17,22 @@ public class ProduitRESTController {
     ProduitService produitService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Produit> getAllProduits() {
+    public List<ProduitDTO> getAllProduits() {
         return produitService.getAllProduits();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Produit getProduitById(@PathVariable("id") Long id) {
+    public ProduitDTO getProduitById(@PathVariable("id") Long id) {
         return produitService.getProduit(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Produit createProduit(@RequestBody Produit produit) {
-        return produitService.saveProduit(produit);
+    public ProduitDTO createProduit(@RequestBody ProduitDTO produitDTO) {
+        return produitService.saveProduit(produitDTO);
     }
-
     @RequestMapping(method = RequestMethod.PUT)
-    public Produit updateProduit(@RequestBody Produit produit) {
-        return produitService.updateProduit(produit);
+    public ProduitDTO updateProduit(@RequestBody ProduitDTO produitDTO) {
+        return produitService.updateProduit(produitDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

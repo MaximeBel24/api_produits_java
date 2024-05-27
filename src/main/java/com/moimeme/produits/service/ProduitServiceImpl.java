@@ -1,12 +1,16 @@
 package com.moimeme.produits.service;
 
+import com.moimeme.produits.dto.ProduitDTO;
 import com.moimeme.produits.entities.Categorie;
 import com.moimeme.produits.entities.Produit;
 import com.moimeme.produits.repositories.ProduitRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProduitServiceImpl implements ProduitService{
@@ -14,14 +18,17 @@ public class ProduitServiceImpl implements ProduitService{
     @Autowired
     ProduitRepository produitRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Override
-    public Produit saveProduit(Produit p){
-        return produitRepository.save(p);
+    public ProduitDTO saveProduit(ProduitDTO p){
+        return convertEntityToDto( produitRepository.save(convertDtoToEntity(p)));
     }
 
     @Override
-    public Produit updateProduit(Produit p) {
-        return produitRepository.save(p);
+    public ProduitDTO updateProduit(ProduitDTO p) {
+        return convertEntityToDto(produitRepository.save(convertDtoToEntity(p)));
     }
 
     @Override
@@ -35,13 +42,15 @@ public class ProduitServiceImpl implements ProduitService{
     }
 
     @Override
-    public Produit getProduit(Long id) {
-        return produitRepository.findById(id).get();
+    public ProduitDTO getProduit(Long id) {
+        return convertEntityToDto( produitRepository.findById(id).get());
     }
 
     @Override
-    public List<Produit> getAllProduits() {
-        return produitRepository.findAll();
+    public List<ProduitDTO> getAllProduits() {
+        return produitRepository.findAll().stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -78,4 +87,17 @@ public class ProduitServiceImpl implements ProduitService{
     public List<Produit> trierProduitsNomsPrix() {
         return produitRepository.trierProduitsNomsPrix();
     }
+
+    @Override
+    public ProduitDTO convertEntityToDto(Produit produit) {
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(produit, ProduitDTO.class);
+    }
+
+    @Override
+    public Produit convertDtoToEntity(ProduitDTO produitDto) {
+        Produit produit = new Produit();
+        return modelMapper.map(produitDto, Produit.class);
+    }
+
 }
