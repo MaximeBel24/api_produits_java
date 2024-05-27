@@ -24,14 +24,6 @@ public class Categorie {
     @OneToMany(mappedBy = "categorie")
     private List<Produit> produits;
 
-//    public Categorie() {}
-//
-//    public Categorie(String nomCat, String descritpionCat, List<Produit> produits) {
-//        this.nomCat = nomCat;
-//        this.descritpionCat = descritpionCat;
-//        this.produits = produits;
-//    }
-
     public Long getIdCat() {
         return idCat;
     }
