@@ -1,5 +1,6 @@
 package com.moimeme.produits;
 
+import com.moimeme.produits.entities.Categorie;
 import com.moimeme.produits.entities.Produit;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ProduitsApplication implements CommandLineRunner {
 	}
 
 	public void run(String... args) throws Exception {
-		repositoryRestConfiguration.exposeIdsFor(Produit.class);
+		repositoryRestConfiguration.exposeIdsFor(Produit.class, Categorie.class);
 	}
 
 	@Bean
