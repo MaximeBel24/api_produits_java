@@ -45,4 +45,10 @@ public class ProduitRESTController {
         return produitService.findByCategorieIdCat(idCat);
     }
 
+    @RequestMapping(value="/prodsByName/{nom}",method = RequestMethod.GET)
+    public List<Produit> findByNomProduitContains(@PathVariable("nom") String nom) {
+        return produitService.findByNomProduitContains(nom);
+    }
+
+
 }
